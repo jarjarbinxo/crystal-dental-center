@@ -69,7 +69,7 @@ nav {
   transition: box-shadow 0.3s;
 }
 nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
-.nav-logo { display: flex; flex-direction: row; align-items: center; gap: 10px; }
+.nav-logo { display: flex; flex-direction: column; gap: 1px; }
 .logo-text {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.45rem; font-weight: 600; color: var(--charcoal); letter-spacing: 0.01em; line-height: 1;
@@ -101,20 +101,7 @@ nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
   filter: blur(80px);
   pointer-events: none;
 }
-/* Hero logo image */
-.hero-logo {
-  position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
-  width: 400px; height: 400px;
-  opacity: 0.55;
-  pointer-events: none;
-  animation: floatLogo 6s ease-in-out infinite;
-}
-[dir="rtl"] .hero-logo { right: auto; left: 80px; }
-[dir="rtl"] .hero-blob  { right: auto; left: -100px; }
-@keyframes floatLogo {
-  0%, 100% { transform: translateY(-50%) translateY(0px); }
-  50%       { transform: translateY(-50%) translateY(-16px); }
-}
+[dir="rtl"] .hero-blob { right: auto; left: -100px; }
 .hero-content { max-width: 600px; padding-top: 88px; position: relative; z-index: 1; }
 .hero-badge {
   display: inline-block;
@@ -352,11 +339,8 @@ footer::before {
 <!-- NAV -->
 <nav id="nav">
   <div class="nav-logo">
-    <img src="https://static.wixstatic.com/media/b6932e2557f7f5a0734ed63c3ac663e7.png" alt="Crystal Dental" style="height:44px;width:44px;object-fit:contain;border-radius:50%;"/>
-    <div style="display:flex;flex-direction:column;gap:1px;">
-      <span class="logo-text t" data-en="Crystal Dental" data-ar="كريستال لطب الأسنان">Crystal Dental</span>
-      <span class="logo-sub t" data-en="Center · Kuwait" data-ar="المركز · الكويت">Center · Kuwait</span>
-    </div>
+    <span class="logo-text t" data-en="Crystal Dental" data-ar="كريستال لطب الأسنان">Crystal Dental</span>
+    <span class="logo-sub t" data-en="Center · Kuwait" data-ar="المركز · الكويت">Center · Kuwait</span>
   </div>
   <button type="button" id="lang-btn" aria-label="Toggle language">عربي</button>
 </nav>
@@ -365,7 +349,6 @@ footer::before {
 <section class="hero">
   <canvas id="bg-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
   <div class="hero-blob"></div>
-  <img class="hero-logo" src="https://static.wixstatic.com/media/b6932e2557f7f5a0734ed63c3ac663e7.png" alt="Crystal Dental Center logo"/>
   <div class="hero-content">
     <div class="hero-badge t" data-en="Crystal Tower, 8th Floor · Kuwait" data-ar="برج كريستال، الطابق الثامن · الكويت">Crystal Tower, 8th Floor · Kuwait</div>
     <h1>
@@ -566,73 +549,131 @@ footer::before {
 </footer>
 
 <script>
-// ─── HERO BACKGROUND SHADER ──────────────
+// ─── FLOATING CRYSTAL SHADER ─────────────
 (function() {
   var canvas = document.getElementById('bg-canvas');
-  var gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-  if (!gl) return;
-
-  var vert = [
-    'attribute vec2 a_pos;',
-    'void main(){ gl_Position = vec4(a_pos, 0.0, 1.0); }'
-  ].join('\n');
-
-  var frag = [
-    'precision mediump float;',
-    'uniform float u_time;',
-    'uniform vec2  u_res;',
-    'void main(){',
-    '  vec2 uv = gl_FragCoord.xy / u_res;',
-    '  float t = u_time * 0.28;',
-    '  vec3 col = vec3(0.0);',
-    // Soft organic gradient blobs
-    '  float b1 = smoothstep(0.0, 1.0, 1.0 - length(uv - vec2(0.75 + 0.12*sin(t),       0.5  + 0.1*cos(t*0.7))));',
-    '  float b2 = smoothstep(0.0, 1.0, 1.0 - length(uv - vec2(0.6  + 0.1*cos(t*0.9+1.2), 0.35 + 0.15*sin(t*0.6))));',
-    '  float b3 = smoothstep(0.0, 1.0, 1.0 - length(uv - vec2(0.85 + 0.08*sin(t*1.1+2.0),0.65 + 0.1*cos(t*0.8+1.0))));',
-    // Colors from logo gradient: pink, purple, blue
-    '  vec3 pink   = vec3(0.898, 0.098, 0.490);',
-    '  vec3 purple = vec3(0.545, 0.141, 0.667);',
-    '  vec3 blue   = vec3(0.098, 0.463, 0.824);',
-    '  col += pink   * pow(b1, 2.0) * 0.18;',
-    '  col += purple * pow(b2, 2.0) * 0.14;',
-    '  col += blue   * pow(b3, 2.0) * 0.12;',
-    '  col = clamp(col, 0.0, 1.0);',
-    '  gl_FragColor = vec4(1.0 - col * 0.55, 1.0);',  // white base, subtle color wash
-    '}'
-  ].join('\n');
-
-  function compile(type, src) {
-    var s = gl.createShader(type);
-    gl.shaderSource(s, src); gl.compileShader(s); return s;
-  }
-  var prog = gl.createProgram();
-  gl.attachShader(prog, compile(gl.VERTEX_SHADER, vert));
-  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, frag));
-  gl.linkProgram(prog); gl.useProgram(prog);
-
-  var buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-  var loc = gl.getAttribLocation(prog, 'a_pos');
-  gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-
-  var uTime = gl.getUniformLocation(prog, 'u_time');
-  var uRes  = gl.getUniformLocation(prog, 'u_res');
+  var ctx    = canvas.getContext('2d');
+  if (!ctx) return;
 
   function resize() {
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    gl.viewport(0, 0, canvas.width, canvas.height);
+    canvas.width  = canvas.offsetWidth  * Math.min(devicePixelRatio, 2);
+    canvas.height = canvas.offsetHeight * Math.min(devicePixelRatio, 2);
   }
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  var start = performance.now();
+  // Draw an 8-pointed star (crystal shape)
+  function drawCrystal(ctx, cx, cy, r, rotation) {
+    var pts = 8;
+    var inner = r * 0.42;
+    ctx.beginPath();
+    for (var i = 0; i < pts * 2; i++) {
+      var angle = (i * Math.PI / pts) + rotation;
+      var radius = (i % 2 === 0) ? r : inner;
+      var x = cx + Math.cos(angle) * radius;
+      var y = cy + Math.sin(angle) * radius;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+  }
+
+  // Draw blocky cross detail inside crystal
+  function drawInnerDetail(ctx, cx, cy, r, rotation) {
+    var arm = r * 0.55;
+    var w   = r * 0.18;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rotation);
+    // horizontal arm
+    ctx.fillRect(-arm, -w/2, arm*2, w);
+    // vertical arm
+    ctx.fillRect(-w/2, -arm, w, arm*2);
+    // diagonal arms (45°)
+    ctx.rotate(Math.PI / 4);
+    ctx.fillRect(-arm*0.7, -w/2*0.8, arm*1.4, w*0.8);
+    ctx.fillRect(-w/2*0.8, -arm*0.7, w*0.8, arm*1.4);
+    ctx.restore();
+  }
+
+  // Particle system
+  var N = 14;
+  var particles = [];
+  for (var i = 0; i < N; i++) {
+    particles.push({
+      x:      Math.random(),                        // 0-1 relative to canvas
+      y:      Math.random(),
+      r:      18 + Math.random() * 38,              // radius px (in logical space)
+      rot:    Math.random() * Math.PI * 2,
+      rotSpd: (Math.random() - 0.5) * 0.008,
+      dx:     (Math.random() - 0.5) * 0.00015,
+      dy:    -0.00006 - Math.random() * 0.00012,    // drift upward slowly
+      phase:  Math.random() * Math.PI * 2,
+      spd:    0.4 + Math.random() * 0.6,
+      alpha:  0.06 + Math.random() * 0.12,
+    });
+  }
+
+  var t = 0;
   function frame() {
     requestAnimationFrame(frame);
-    gl.uniform1f(uTime, (performance.now() - start) / 1000);
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    t += 0.012;
+
+    var W = canvas.width;
+    var H = canvas.height;
+    ctx.clearRect(0, 0, W, H);
+
+    // Subtle gradient background wash (soft pink-purple on right)
+    var bg = ctx.createRadialGradient(W * 0.78, H * 0.5, 0, W * 0.78, H * 0.5, W * 0.55);
+    bg.addColorStop(0,   'rgba(229,25,125,0.055)');
+    bg.addColorStop(0.5, 'rgba(139,36,170,0.04)');
+    bg.addColorStop(1,   'rgba(255,255,255,0)');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    particles.forEach(function(p) {
+      // Float: sine wave + steady drift
+      var floatY = Math.sin(t * p.spd + p.phase) * 0.018;
+      var px = ((p.x + p.dx * t * 60) % 1 + 1) % 1;
+      var py = ((p.y + p.dy * t * 60 + floatY) % 1 + 1) % 1;
+      var cx = px * W;
+      var cy = py * H;
+      var r  = p.r * (W / 1440); // scale with canvas width
+      p.rot += p.rotSpd;
+
+      // Shadow / depth layer
+      ctx.save();
+      ctx.globalAlpha = p.alpha * 0.35;
+      drawCrystal(ctx, cx + r * 0.12, cy + r * 0.18, r, p.rot);
+      ctx.fillStyle = 'rgba(180, 100, 0, 0.6)';
+      ctx.fill();
+      ctx.restore();
+
+      // Main crystal body — golden gradient
+      var grad = ctx.createRadialGradient(cx - r*0.2, cy - r*0.2, 0, cx, cy, r);
+      grad.addColorStop(0,   '#FFE066');
+      grad.addColorStop(0.4, '#F5B800');
+      grad.addColorStop(0.75,'#E08800');
+      grad.addColorStop(1,   '#C06800');
+
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      drawCrystal(ctx, cx, cy, r, p.rot);
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Highlight edge
+      drawCrystal(ctx, cx, cy, r, p.rot);
+      ctx.strokeStyle = 'rgba(255,240,100,0.5)';
+      ctx.lineWidth = r * 0.06;
+      ctx.stroke();
+
+      // Inner detail (blocky cross lines)
+      ctx.globalAlpha = p.alpha * 0.45;
+      ctx.fillStyle = 'rgba(200, 130, 0, 0.9)';
+      drawInnerDetail(ctx, cx, cy, r, p.rot);
+
+      ctx.restore();
+    });
   }
   frame();
 })();
