@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Crystal Dental Center</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Logo ring gradient colors */
+  --orange:  #FF8B15;
+  --pink:    #E5197D;
+  --purple:  #8B24AA;
+  --blue:    #1976D2;
+  --teal:    #00ACC1;
+  --green:   #43A047;
+
+  --gradient: linear-gradient(135deg, #FF8B15, #E5197D, #8B24AA, #1976D2, #00ACC1, #43A047);
+
+  --white:      #FFFFFF;
+  --off-white:  #F9FAFB;
+  --light:      #F3F4F6;
+  --charcoal:   #111827;
+  --gray:       #6B7280;
+  --border:     #E5E7EB;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--white);
+  color: var(--charcoal);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* Arabic font overrides */
+[data-lang="ar"] body,
+[data-lang="ar"] p,
+[data-lang="ar"] span,
+[data-lang="ar"] a,
+[data-lang="ar"] button { font-family: 'Tajawal', sans-serif; }
+[data-lang="ar"] h1,
+[data-lang="ar"] h2,
+[data-lang="ar"] h3,
+[data-lang="ar"] .section-label { font-family: 'Tajawal', sans-serif; font-weight: 700; letter-spacing: 0; }
+
+/* ─── GRADIENT UTILITIES ─────────────────── */
+.grad-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.grad-border { border: 2px solid transparent; background: linear-gradient(var(--white),var(--white)) padding-box, var(--gradient) border-box; }
+.grad-line { height: 3px; background: var(--gradient); border-radius: 2px; }
+
+/* ─── NAV ─────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 52px;
+  background: rgba(255,255,255,0.92);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow 0.3s;
+}
+nav.scrolled { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+.nav-logo { display: flex; flex-direction: column; gap: 1px; }
+.logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.45rem; font-weight: 600; color: var(--charcoal); letter-spacing: 0.01em; line-height: 1;
+}
+[data-lang="ar"] .logo-text { font-family: 'Tajawal', sans-serif; font-size: 1.2rem; }
+.logo-sub { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gray); }
+#lang-btn {
+  background: var(--white); border: 1.5px solid var(--border); color: var(--charcoal);
+  padding: 8px 20px; font-family: 'Jost', sans-serif; font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.1em; cursor: pointer; border-radius: 4px; transition: all 0.2s;
+}
+#lang-btn:hover { border-color: var(--pink); color: var(--pink); }
+
+/* ─── HERO ───────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 0 52px;
+  background: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+/* Large gradient blob decoration */
+.hero-blob {
+  position: absolute; right: -100px; top: 50%; transform: translateY(-50%);
+  width: 640px; height: 640px; border-radius: 50%;
+  background: var(--gradient);
+  opacity: 0.06;
+  filter: blur(80px);
+  pointer-events: none;
+}
+/* Ring decoration (mimics logo ring) */
+.hero-ring {
+  position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
+  width: 420px; height: 420px; border-radius: 50%;
+  border: 28px solid transparent;
+  background: var(--gradient) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0.12;
+  pointer-events: none;
+}
+.hero-content { max-width: 600px; padding-top: 88px; position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-block;
+  font-size: 0.68rem; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--gray); margin-bottom: 22px;
+  padding: 6px 16px; border: 1px solid var(--border); border-radius: 20px;
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.2rem, 5.5vw, 6rem);
+  font-weight: 300; color: var(--charcoal);
+  line-height: 1.06; letter-spacing: -0.02em; margin-bottom: 6px;
+}
+.hero h1 .accent { font-style: italic; }
+.hero-divider { width: 72px; margin: 24px 0; }
+.hero-sub {
+  font-size: 1rem; line-height: 1.8; color: var(--gray);
+  font-weight: 300; max-width: 440px; margin-bottom: 48px;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; font-family: 'Jost', sans-serif;
+  font-size: 0.82rem; font-weight: 500; letter-spacing: 0.09em;
+  text-transform: uppercase; text-decoration: none; cursor: pointer;
+  transition: all 0.22s; border-radius: 4px; border: none; white-space: nowrap;
+}
+.btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+.btn-phone {
+  background: var(--gradient); color: var(--white);
+  background-size: 200% 200%; background-position: 0% 50%;
+}
+.btn-phone:hover { background-position: 100% 50%; box-shadow: 0 6px 20px rgba(229,25,125,0.3); }
+.btn-whatsapp { background: var(--white); color: var(--charcoal); border: 1.5px solid var(--border); }
+.btn-whatsapp:hover { border-color: var(--pink); color: var(--pink); }
+.btn-maps { background: var(--white); color: var(--gray); border: 1.5px solid var(--border); }
+.btn-maps:hover { border-color: var(--blue); color: var(--blue); }
+
+/* ─── SECTION COMMONS ────────────────────── */
+section { padding: 100px 52px; }
+.section-label {
+  font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gray); margin-bottom: 12px; display: block;
+}
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.9rem, 3vw, 3rem); font-weight: 300; color: var(--charcoal);
+  letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 60px; max-width: 500px;
+}
+
+/* ─── SERVICES ───────────────────────────── */
+.services { background: var(--off-white); }
+.services-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px; max-width: 1100px;
+}
+.service-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 40px 32px;
+  transition: all 0.25s; position: relative; overflow: hidden;
+}
+.service-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gradient); opacity: 0; transition: opacity 0.25s;
+}
+.service-card:hover { border-color: transparent; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+.service-card:hover::before { opacity: 1; }
+.service-num {
+  font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300;
+  line-height: 1; margin-bottom: 20px; letter-spacing: -0.02em;
+  background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  opacity: 0.5;
+}
+.service-name { font-size: 1rem; font-weight: 500; color: var(--charcoal); margin-bottom: 10px; }
+.service-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.7; font-weight: 300; }
+
+/* ─── ABOUT ──────────────────────────────── */
+.about { background: var(--white); }
+.about-inner {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: center; max-width: 1100px;
+}
+.about h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.9rem, 3vw, 3rem); font-weight: 300;
+  line-height: 1.22; letter-spacing: -0.02em; margin-bottom: 24px; color: var(--charcoal);
+}
+.about-body { font-size: 0.9rem; color: var(--gray); line-height: 1.85; font-weight: 300; }
+.about-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fact-card {
+  background: var(--off-white); border: 1px solid var(--border);
+  border-radius: 8px; padding: 28px 24px;
+  border-top: 3px solid;
+  transition: box-shadow 0.2s;
+}
+.fact-card:nth-child(1) { border-top-color: var(--orange); }
+.fact-card:nth-child(2) { border-top-color: var(--pink); }
+.fact-card:nth-child(3) { border-top-color: var(--blue); }
+.fact-card:nth-child(4) { border-top-color: var(--green); }
+.fact-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.fact-title { font-size: 0.88rem; font-weight: 600; color: var(--charcoal); margin-bottom: 7px; }
+.fact-body { font-size: 0.78rem; color: var(--gray); line-height: 1.65; font-weight: 300; }
+
+/* ─── COMPARISON SLIDER ──────────────────── */
+.comparison-section { background: var(--off-white); }
+.comparison-wrap { max-width: 780px; }
+.comparison-container {
+  position: relative; width: 100%; aspect-ratio: 16/9;
+  overflow: hidden; border-radius: 10px;
+  cursor: col-resize; user-select: none; -webkit-user-select: none;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.10);
+}
+.comp-before {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+.comp-after-wrap {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  width: 50%; overflow: hidden;
+}
+.comp-after {
+  position: absolute; top: 0; left: 0; bottom: 0;
+  height: 100%; width: var(--comp-width, 780px); max-width: none;
+  object-fit: cover; object-position: left center;
+}
+.comp-handle {
+  position: absolute; top: 0; bottom: 0; left: 50%;
+  width: 2px; background: var(--white); transform: translateX(-50%); z-index: 10;
+  pointer-events: none;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.15), 0 0 20px rgba(255,255,255,0.4);
+}
+.comp-knob {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46px; height: 46px; border-radius: 50%;
+  background: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  pointer-events: none;
+}
+.comp-knob svg { width: 20px; height: 20px; }
+.comp-labels { display: flex; justify-content: space-between; margin-top: 14px; }
+.comp-label { font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); display: flex; align-items: center; gap: 7px; }
+.comp-dot { width: 8px; height: 8px; border-radius: 50%; }
+.comp-dot.before { background: #C8A94E; }
+.comp-dot.after { background: var(--green); }
+
+/* ─── GALLERY ────────────────────────────── */
+.gallery-section { background: var(--white); padding: 90px 0; }
+.gallery-header { padding: 0 52px; margin-bottom: 48px; }
+.gallery-header .section-heading { margin-bottom: 0; }
+.marquee-track { overflow: hidden; }
+.marquee-row {
+  display: flex; gap: 14px; margin-bottom: 14px;
+  width: max-content;
+}
+.marquee-row.row1 { animation: scrollLeft 38s linear infinite; }
+.marquee-row.row2 { animation: scrollRight 44s linear infinite; }
+@keyframes scrollLeft  { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes scrollRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.gallery-img {
+  width: 320px; height: 216px; object-fit: cover;
+  border-radius: 6px; flex-shrink: 0; display: block;
+}
+
+/* ─── FOOTER ─────────────────────────────── */
+footer {
+  background: var(--charcoal); padding: 72px 52px 40px;
+}
+/* Gradient top border */
+footer::before {
+  content: ''; display: block; height: 3px;
+  background: var(--gradient); margin: -72px -52px 72px;
+}
+.footer-inner {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px;
+  max-width: 1100px; padding-bottom: 52px; margin-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-logo-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem; font-weight: 600; color: var(--white); display: block; margin-bottom: 4px;
+}
+.footer-logo-sub { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.3); display: block; margin-bottom: 18px; }
+.footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.35); line-height: 1.75; font-weight: 300; max-width: 260px; }
+.footer-col h4 { font-size: 0.65rem; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+.footer-col ul { list-style: none; }
+.footer-col li { font-size: 0.84rem; color: rgba(255,255,255,0.42); margin-bottom: 9px; line-height: 1.6; font-weight: 300; }
+.footer-col a { color: inherit; text-decoration: none; transition: color 0.2s; }
+.footer-col a:hover { color: var(--white); }
+.footer-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.72rem; color: rgba(255,255,255,0.18); letter-spacing: 0.05em;
+}
+
+/* ─── SCROLL REVEAL ──────────────────────── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ─── RESPONSIVE ─────────────────────────── */
+@media (max-width: 960px) {
+  nav { padding: 18px 24px; }
+  section { padding: 80px 24px; }
+  .hero { padding: 0 24px; }
+  .hero-ring { display: none; }
+  .about-inner { grid-template-columns: 1fr; gap: 48px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 36px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  footer { padding-left: 24px; padding-right: 24px; }
+  footer::before { margin-left: -24px; margin-right: -24px; }
+  .gallery-header { padding: 0 24px; }
+}
+@media (max-width: 600px) {
+  .hero-btns { flex-direction: column; }
+  .btn { max-width: 100%; width: 100%; justify-content: center; }
+  .services-grid { grid-template-columns: 1fr; }
+  .about-facts { grid-template-columns: 1fr; }
+  .gallery-img { width: 240px; height: 162px; }
+  .comparison-container { aspect-ratio: 4/3; }
+  .hero h1 { font-size: 2.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-row { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <span class="logo-text t" data-en="Crystal Dental" data-ar="كريستال لطب الأسنان">Crystal Dental</span>
+    <span class="logo-sub t" data-en="Center · Kuwait" data-ar="المركز · الكويت">Center · Kuwait</span>
+  </div>
+  <button type="button" id="lang-btn" aria-label="Toggle language">عربي</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-ring"></div>
+  <div class="hero-content">
+    <div class="hero-badge t" data-en="Crystal Tower, 8th Floor · Kuwait" data-ar="برج كريستال، الطابق الثامن · الكويت">Crystal Tower, 8th Floor · Kuwait</div>
+    <h1>
+      <span class="t" data-en="Your Smile," data-ar="ابتسامتك،">Your Smile,</span><br>
+      <span class="accent grad-text t" data-en="Perfected." data-ar="تكتمل.">Perfected.</span>
+    </h1>
+    <div class="grad-line hero-divider"></div>
+    <p class="hero-sub t" data-en="Expert dental care delivered with warmth — from routine checkups to advanced smile transformations. Your comfort is our priority." data-ar="رعاية أسنان متخصصة بلمسة إنسانية — من الفحوصات الدورية إلى تحويلات الابتسامة المتقدمة. راحتك هي أولويتنا.">Expert dental care delivered with warmth — from routine checkups to advanced smile transformations. Your comfort is our priority.</p>
+    <div class="hero-btns">
+      <a href="tel:+96522970112" class="btn btn-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.02 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>
+        <span class="t" data-en="Call Now" data-ar="اتصل الآن">Call Now</span>
+      </a>
+      <a href="https://reach.link/crystaldental" target="_blank" rel="noopener" class="btn btn-whatsapp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span class="t" data-en="WhatsApp" data-ar="واتساب">WhatsApp</span>
+      </a>
+      <a href="https://www.google.com/maps/search/Crystal+Dental+Center+Ahmed+Aljaber+Street+Sharq+Kuwait" target="_blank" rel="noopener" class="btn btn-maps">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span class="t" data-en="Directions" data-ar="الاتجاهات">Directions</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <span class="section-label t reveal" data-en="// What We Do" data-ar="// ما نقدمه">// What We Do</span>
+  <h2 class="section-heading reveal">
+    <span class="t" data-en="Care for every smile in the family." data-ar="رعاية لكل ابتسامة في العائلة.">Care for every smile in the family.</span>
+  </h2>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-name t" data-en="Cosmetic Dentistry" data-ar="طب الأسنان التجميلي">Cosmetic Dentistry</div>
+      <div class="service-desc t" data-en="Veneers, smile design, and aesthetic treatments to give you the confidence you deserve." data-ar="قشرة الأسنان وتصميم الابتسامة والعلاجات الجمالية لمنحك الثقة التي تستحقها.">Veneers, smile design, and aesthetic treatments to give you the confidence you deserve.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">02</div>
+      <div class="service-name t" data-en="Orthodontics" data-ar="تقويم الأسنان">Orthodontics</div>
+      <div class="service-desc t" data-en="Traditional braces and Invisalign clear aligners for a perfectly straight smile." data-ar="تقويم الأسنان التقليدي والمثبتات الشفافة لابتسامة مثالية الاستقامة.">Traditional braces and Invisalign clear aligners for a perfectly straight smile.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">03</div>
+      <div class="service-name t" data-en="Root Canal — One Visit" data-ar="علاج العصب — جلسة واحدة">Root Canal — One Visit</div>
+      <div class="service-desc t" data-en="Microscope-assisted root canal therapy completed in a single comfortable session." data-ar="علاج العصب بمساعدة المجهر يُنجز في جلسة واحدة مريحة.">Microscope-assisted root canal therapy completed in a single comfortable session.</div>
+    </div>
+    <div class="service-card reveal reveal-delay-3">
+      <div class="service-num">04</div>
+      <div class="service-name t" data-en="Children's Dentistry" data-ar="طب أسنان الأطفال">Children's Dentistry</div>
+      <div class="service-desc t" data-en="A welcoming child-friendly environment where kids actually enjoy their dental visits." data-ar="بيئة ترحيبية صديقة للأطفال حيث يستمتع الأطفال فعلاً بزيارات الطبيب.">A welcoming child-friendly environment where kids actually enjoy their dental visits.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-left">
+      <span class="section-label t reveal" data-en="// Our Clinic" data-ar="// عيادتنا">// Our Clinic</span>
+      <h2 class="reveal">
+        <span class="t" data-en="Where precision meets patient care." data-ar="حيث تلتقي الدقة برعاية المريض.">Where precision meets patient care.</span>
+      </h2>
+      <p class="about-body t reveal" data-en="Crystal Dental Center is located on the 8th floor of Crystal Tower in Sharq, Kuwait. We combine state-of-the-art equipment with strict international infection control protocols to deliver safe, beautiful results every time." data-ar="يقع مركز كريستال لطب الأسنان في الطابق الثامن من برج كريستال في الشرق، الكويت. نجمع بين أحدث المعدات وبروتوكولات مكافحة العدوى الدولية الصارمة لتقديم نتائج آمنة وجميلة في كل مرة.">Crystal Dental Center is located on the 8th floor of Crystal Tower in Sharq, Kuwait. We combine state-of-the-art equipment with strict international infection control protocols to deliver safe, beautiful results every time.</p>
+    </div>
+    <div class="about-facts">
+      <div class="fact-card reveal">
+        <div class="fact-title t" data-en="License #172a" data-ar="ترخيص رقم 172a">License #172a</div>
+        <div class="fact-body t" data-en="Fully licensed and regulated dental facility in Kuwait." data-ar="منشأة طبية أسنان مرخصة ومنظمة بالكامل في الكويت.">Fully licensed and regulated dental facility in Kuwait.</div>
+      </div>
+      <div class="fact-card reveal reveal-delay-1">
+        <div class="fact-title t" data-en="Microscope Technology" data-ar="تقنية المجهر">Microscope Technology</div>
+        <div class="fact-body t" data-en="Precision root canal treatments performed under magnification." data-ar="علاجات جذور دقيقة تُجرى تحت التكبير.">Precision root canal treatments performed under magnification.</div>
+      </div>
+      <div class="fact-card reveal reveal-delay-2">
+        <div class="fact-title t" data-en="Infection Control" data-ar="مكافحة العدوى">Infection Control</div>
+        <div class="fact-body t" data-en="Strict international guidelines followed for patient safety." data-ar="نلتزم بصرامة بالإرشادات الدولية لسلامة المريض.">Strict international guidelines followed for patient safety.</div>
+      </div>
+      <div class="fact-card reveal reveal-delay-3">
+        <div class="fact-title t" data-en="Child-Friendly" data-ar="صديق للأطفال">Child-Friendly</div>
+        <div class="fact-body t" data-en="Purpose-built to make young patients feel at ease." data-ar="مصمم خصيصاً لجعل المرضى الصغار يشعرون بالراحة.">Purpose-built to make young patients feel at ease.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="comparison-section" id="transformation">
+  <span class="section-label t reveal" data-en="// Teeth Whitening" data-ar="// تبييض الأسنان">// Teeth Whitening</span>
+  <h2 class="section-heading reveal">
+    <span class="t" data-en="See the transformation." data-ar="شاهد التحول.">See the transformation.</span>
+  </h2>
+  <p class="hero-sub reveal" style="max-width:440px;margin-bottom:40px;">
+    <span class="t" data-en="Drag the slider to see the difference professional whitening makes." data-ar="اسحب المنزلق لترى الفرق الذي يحدثه التبييض الاحترافي.">Drag the slider to see the difference professional whitening makes.</span>
+  </p>
+  <div class="comparison-wrap reveal">
+    <div class="comparison-container" id="comp">
+      <img class="comp-before" src="before-teeth.jpg" alt="Before whitening" draggable="false"/>
+      <div class="comp-after-wrap" id="comp-after-wrap">
+        <img class="comp-after" id="comp-after-img" src="after-teeth.jpg" alt="After whitening" draggable="false"/>
+      </div>
+      <div class="comp-handle" id="comp-handle">
+        <div class="comp-knob">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2">
+            <path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="comp-labels">
+      <span class="comp-label">
+        <span class="comp-dot before"></span>
+        <span class="t" data-en="Before" data-ar="قبل">Before</span>
+      </span>
+      <span class="comp-label">
+        <span class="t" data-en="After" data-ar="بعد">After</span>
+        <span class="comp-dot after"></span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header">
+    <span class="section-label t reveal" data-en="// Our Space" data-ar="// مساحتنا">// Our Space</span>
+    <h2 class="section-heading reveal">
+      <span class="t" data-en="Step inside." data-ar="ادخل وانظر.">Step inside.</span>
+    </h2>
+  </div>
+  <div class="marquee-track">
+    <div class="marquee-row row1" id="row1">
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_36f66643bd914f939ea4d9b01b2a52c2~mv2_d_5472_3648_s_4_2.jpg/v1/fill/w_816,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_1364_JPG.jpg" alt="Clinic" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_1bc341fdeacc4a95911130397fa55959f000.jpg/v1/fill/w_818,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/da1870_1bc341fdeacc4a95911130397fa55959f000.jpg" alt="Clinic" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_6dd7315fc75247a0b791327a37ffefc1~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Ease%20your%20mind%20with%20our%20skilled%20doctors%20and%20state%20of%20the%20art%20equipment.jpg" alt="Doctor" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_ff79faab0e2e41b48d5cf0786a489a14~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20strictly%20follow%20the%20international%20guidlines%20regarding%20Infection%20control%20and%20Patient%20saf.jpg" alt="Infection control" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_f43014edfd8c4b2c8de6a27aa7b9df99~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20always%20provide%20the%20best%20medical%20tools%20to%20provide%20the%20best%20service%20to%20you__%D8%AF%D8%A7%D8%A6%D9%85%D8%A7%20%D9%86%D9%88%D9%81%D8%B1%20%D8%A3%D9%86.jpg" alt="Equipment" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_f6690e201ff84b28b55c202913efbc66f000.jpg/v1/fill/w_816,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/da1870_f6690e201ff84b28b55c202913efbc66f000.jpg" alt="Clinic interior" loading="lazy"/>
+      <!-- duplicate set for seamless loop -->
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_36f66643bd914f939ea4d9b01b2a52c2~mv2_d_5472_3648_s_4_2.jpg/v1/fill/w_816,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_1364_JPG.jpg" alt="Clinic" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_1bc341fdeacc4a95911130397fa55959f000.jpg/v1/fill/w_818,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/da1870_1bc341fdeacc4a95911130397fa55959f000.jpg" alt="Clinic" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_6dd7315fc75247a0b791327a37ffefc1~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Ease%20your%20mind%20with%20our%20skilled%20doctors%20and%20state%20of%20the%20art%20equipment.jpg" alt="Doctor" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_ff79faab0e2e41b48d5cf0786a489a14~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20strictly%20follow%20the%20international%20guidlines%20regarding%20Infection%20control%20and%20Patient%20saf.jpg" alt="Infection control" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_f43014edfd8c4b2c8de6a27aa7b9df99~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20always%20provide%20the%20best%20medical%20tools%20to%20provide%20the%20best%20service%20to%20you__%D8%AF%D8%A7%D8%A6%D9%85%D8%A7%20%D9%86%D9%88%D9%81%D8%B1%20%D8%A3%D9%86.jpg" alt="Equipment" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_f6690e201ff84b28b55c202913efbc66f000.jpg/v1/fill/w_816,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/da1870_f6690e201ff84b28b55c202913efbc66f000.jpg" alt="Clinic interior" loading="lazy"/>
+    </div>
+    <div class="marquee-row row2">
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_38e338b234294c5c9de3e495f344df1a~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/profile%20pic.jpg" alt="Dr Munira" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_20ab00ffc5b04c148eeb9816c3553278~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Your%20kids%20will%20actually%20ENJOY%20getting%20their%20teeth%20checked%20at%20crystal__%D8%A3%D8%B7%D9%81%D8%A7%D9%84%D9%83%D9%85%20%D8%B3%D9%8A%D8%B3%D8%AA%D9%85%D8%AA%D8%B9%D9%88%D9%86%20%D8%B9%D9%86.jpg" alt="Children" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_f43014edfd8c4b2c8de6a27aa7b9df99~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20always%20provide%20the%20best%20medical%20tools%20to%20provide%20the%20best%20service%20to%20you__%D8%AF%D8%A7%D8%A6%D9%85%D8%A7%20%D9%86%D9%88%D9%81%D8%B1%20%D8%A3%D9%86.jpg" alt="Equipment" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_6dd7315fc75247a0b791327a37ffefc1~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Ease%20your%20mind%20with%20our%20skilled%20doctors%20and%20state%20of%20the%20art%20equipment.jpg" alt="Doctor" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_36f66643bd914f939ea4d9b01b2a52c2~mv2_d_5472_3648_s_4_2.jpg/v1/fill/w_816,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_1364_JPG.jpg" alt="Clinic" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_ff79faab0e2e41b48d5cf0786a489a14~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20strictly%20follow%20the%20international%20guidlines%20regarding%20Infection%20control%20and%20Patient%20saf.jpg" alt="Infection control" loading="lazy"/>
+      <!-- duplicate set -->
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_38e338b234294c5c9de3e495f344df1a~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/profile%20pic.jpg" alt="Dr Munira" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_20ab00ffc5b04c148eeb9816c3553278~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Your%20kids%20will%20actually%20ENJOY%20getting%20their%20teeth%20checked%20at%20crystal__%D8%A3%D8%B7%D9%81%D8%A7%D9%84%D9%83%D9%85%20%D8%B3%D9%8A%D8%B3%D8%AA%D9%85%D8%AA%D8%B9%D9%88%D9%86%20%D8%B9%D9%86.jpg" alt="Children" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_f43014edfd8c4b2c8de6a27aa7b9df99~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20always%20provide%20the%20best%20medical%20tools%20to%20provide%20the%20best%20service%20to%20you__%D8%AF%D8%A7%D8%A6%D9%85%D8%A7%20%D9%86%D9%88%D9%81%D8%B1%20%D8%A3%D9%86.jpg" alt="Equipment" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_6dd7315fc75247a0b791327a37ffefc1~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Ease%20your%20mind%20with%20our%20skilled%20doctors%20and%20state%20of%20the%20art%20equipment.jpg" alt="Doctor" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_36f66643bd914f939ea4d9b01b2a52c2~mv2_d_5472_3648_s_4_2.jpg/v1/fill/w_816,h_459,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/IMG_1364_JPG.jpg" alt="Clinic" loading="lazy"/>
+      <img class="gallery-img" src="https://static.wixstatic.com/media/da1870_ff79faab0e2e41b48d5cf0786a489a14~mv2.jpg/v1/fill/w_480,h_480,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/We%20strictly%20follow%20the%20international%20guidlines%20regarding%20Infection%20control%20and%20Patient%20saf.jpg" alt="Infection control" loading="lazy"/>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo-text t" data-en="Crystal Dental" data-ar="كريستال لطب الأسنان">Crystal Dental</span>
+      <span class="footer-logo-sub t" data-en="Center · Kuwait" data-ar="المركز · الكويت">Center · Kuwait</span>
+      <p class="footer-tagline t" data-en="State-of-the-art dental care at Crystal Tower, Sharq. Where beautiful smiles are crafted with precision." data-ar="رعاية أسنان متطورة في برج كريستال، الشرق. حيث تُصنع الابتسامات الجميلة بدقة.">State-of-the-art dental care at Crystal Tower, Sharq. Where beautiful smiles are crafted with precision.</p>
+    </div>
+    <div class="footer-col">
+      <h4 class="t" data-en="Visit Us" data-ar="زورونا">Visit Us</h4>
+      <ul>
+        <li><span class="t" data-en="Crystal Tower, 8th Floor" data-ar="برج كريستال، الطابق الثامن">Crystal Tower, 8th Floor</span></li>
+        <li><span class="t" data-en="Ahmed Aljaber Street, Sharq" data-ar="شارع أحمد الجابر، الشرق">Ahmed Aljaber Street, Sharq</span></li>
+        <li><span class="t" data-en="Block 1, Kuwait" data-ar="قطعة 1، الكويت">Block 1, Kuwait</span></li>
+        <li><a href="tel:+96522970112">+965 2297 0112</a></li>
+        <li><a href="tel:+96599012112">+965 9901 2112</a></li>
+        <li><a href="mailto:info@crystal-dental-center.com">info@crystal-dental-center.com</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 class="t" data-en="Connect" data-ar="تواصل">Connect</h4>
+      <ul>
+        <li><a href="https://reach.link/crystaldental" target="_blank" rel="noopener">WhatsApp / reach.link</a></li>
+        <li><a href="https://instagram.com/crystal.dental.center" target="_blank" rel="noopener">@crystal.dental.center</a></li>
+        <li><a href="https://www.google.com/maps/search/Crystal+Dental+Center+Kuwait+Sharq" target="_blank" rel="noopener"><span class="t" data-en="Google Maps" data-ar="خرائط جوجل">Google Maps</span></a></li>
+        <li><span class="t" data-en="License #172a" data-ar="ترخيص رقم 172a">License #172a</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="t" data-en="© 2024 Crystal Dental Center. All rights reserved." data-ar="© 2024 مركز كريستال لطب الأسنان. جميع الحقوق محفوظة.">© 2024 Crystal Dental Center. All rights reserved.</span>
+    <span class="t" data-en="Kuwait · License #172a" data-ar="الكويت · ترخيص رقم 172a">Kuwait · License #172a</span>
+  </div>
+</footer>
+
+<script>
+// ─── NAV SCROLL ───────────────────────────
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
+// ─── LANGUAGE TOGGLE ─────────────────────
+function setLang(lang) {
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.documentElement.setAttribute('data-lang', lang);
+  document.querySelectorAll('.t').forEach(function(el) {
+    var val = el.dataset[lang];
+    if (val !== undefined) el.textContent = val;
+  });
+  document.getElementById('lang-btn').textContent = lang === 'en' ? 'عربي' : 'EN';
+}
+document.getElementById('lang-btn').addEventListener('click', function() {
+  setLang(document.documentElement.getAttribute('data-lang') === 'en' ? 'ar' : 'en');
+});
+
+// ─── COMPARISON SLIDER (smooth, pointer-based) ───
+(function() {
+  var comp        = document.getElementById('comp');
+  var wrap        = document.getElementById('comp-after-wrap');
+  var afterImg    = document.getElementById('comp-after-img');
+  var handle      = document.getElementById('comp-handle');
+  var dragging    = false;
+  var raf         = null;
+  var targetPct   = 50;
+  var currentPct  = 50;
+
+  function resize() {
+    afterImg.style.width = comp.offsetWidth + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  function render() {
+    currentPct += (targetPct - currentPct) * 0.12;
+    wrap.style.width = currentPct + '%';
+    handle.style.left = currentPct + '%';
+    if (dragging || Math.abs(targetPct - currentPct) > 0.05) {
+      raf = requestAnimationFrame(render);
+    } else {
+      raf = null;
+    }
+  }
+
+  function getPercent(e) {
+    var touch = e.touches ? e.touches[0] : e;
+    var rect  = comp.getBoundingClientRect();
+    return Math.min(Math.max(((touch.clientX - rect.left) / rect.width) * 100, 1), 99);
+  }
+
+  function startDrag(e) { dragging = true; targetPct = getPercent(e); if (!raf) raf = requestAnimationFrame(render); }
+  function moveDrag(e)  { if (dragging) { targetPct = getPercent(e); if (!raf) raf = requestAnimationFrame(render); } }
+  function stopDrag()   { dragging = false; }
+
+  comp.addEventListener('mousedown',  startDrag);
+  comp.addEventListener('touchstart', startDrag, { passive: true });
+  window.addEventListener('mousemove',  moveDrag);
+  window.addEventListener('touchmove',  moveDrag, { passive: true });
+  window.addEventListener('mouseup',    stopDrag);
+  window.addEventListener('touchend',   stopDrag);
+
+  // Init
+  requestAnimationFrame(render);
+})();
+
+// ─── SCROLL REVEAL ───────────────────────
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(function(el) {
+  revealObserver.observe(el);
+});
+</script>
+</body>
+</html>
